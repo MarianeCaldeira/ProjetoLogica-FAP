@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<script>
+    let contas = [("Rafael Nunes", "10/10/2002", "77777777777", 1, 1000)]
+    let numeroContas = 2
+    function criarConta() {
+        let novaConta = []
+        novaConta.push(prompt("Digite seu nome: "))
+        novaConta.push(prompt("Digite Data de Nascimento: "))
+        novaConta.push(prompt("Digite seu telefone: "))
+        novaConta.push(++numeroContas)
+        novaConta.push(1000)
+
+        contas.push(novaConta)
+    }
+
+    function transferir() {
+
+    }
+
+    function remover() {
+
+    }
+
+    function exibir(){
+        let numeroDaConta = parseInt(prompt("Digite o numero da conta: "))
+
+        for(let i = 0; i < contas.length; i++){
+            for(let j = 0; j < contas[i].length; j++){
+                if(contas[i][j] === numeroContas){
+                    alert(contas[i]);
+                    return
+                }
+            }
+        }
+    }
+
+    function debitar(){
+        let numeroDaConta = parseInt(prompt("Digite o numero da conta: "))
+
+        for(let i = 0; i < contas.length; i++){
+            for(let j = 0; j < contas[i].length; j++){
+                if(contas[i][j] === numeroDaConta){
+                    let valorDebito = parent(prompt("Digite valor que deseja debitar: "))
+                    if(contas[1][4] >= valorDebito){
+                        contas[1][4] -= valorDebito;
+                        alert("Valor debitado")
+                        alert("Novo Saldo R$ " + contas[1][4])
+                    }
+                    else {
+                        alert("Saldo insuficiente!")
+                    }
+                    return
+                }
+            }
+        }
+    }
+
+</script>
+
+<body>
+    <input type="button" onclick="criarConta()" value="criar Conta">
+    <input type="button" onclick="exibir()" value="exibir">
+    <input type="button" onclick="debitar()" value="debitar">
+</body>
+
+</html>
