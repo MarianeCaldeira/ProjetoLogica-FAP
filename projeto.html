@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
@@ -7,67 +7,93 @@
     <title>Document</title>
 </head>
 <script>
-    let contas = [("Rafael Nunes", "10/10/2002", "77777777777", 1, 1000)]
-    let numeroContas = 2
-    function criarConta() {
-        let novaConta = []
-        novaConta.push(prompt("Digite seu nome: "))
-        novaConta.push(prompt("Digite Data de Nascimento: "))
-        novaConta.push(prompt("Digite seu telefone: "))
-        novaConta.push(++numeroContas)
-        novaConta.push(1000)
+    let contas = [
+        ["Rafael Nunes", "10/10/2002", "77777777777", 1, 1000]
+    ];
+    let numeroContas = 1;
 
-        contas.push(novaConta)
+    function criarConta() {
+        let novaConta = [];
+        novaConta.push(prompt("Digite seu nome: "));
+        novaConta.push(prompt("Digite sua Data de Nascimento: "));
+        novaConta.push(prompt("Digite seu telefone: "));
+        novaConta.push(++numeroContas);
+        novaConta.push(1000); // Saldo inicial
+
+        contas.push(novaConta);
+        alert("Conta criada com sucesso!");
     }
 
     function transferir() {
+        let contaDestino = parseInt(prompt("Digite o número da conta que deseja transferir: "));
+        let contaOrigem = parseInt(prompt("Digite o número da sua conta: "));
+        let valorTransferir = parseFloat(prompt("Digite o valor que deseja transferir: "));
 
-    }
+        let origem = contas.find(conta => conta[3] === contaOrigem);
+        let destino = contas.find(conta => conta[3] === contaDestino);
 
-    function remover() {
-
-    }
-
-    function exibir(){
-        let numeroDaConta = parseInt(prompt("Digite o numero da conta: "))
-
-        for(let i = 0; i < contas.length; i++){
-            for(let j = 0; j < contas[i].length; j++){
-                if(contas[i][j] === numeroContas){
-                    alert(contas[i]);
-                    return
-                }
+        if (origem && destino) {
+            if (origem[4] >= valorTransferir) {
+                origem[4] -= valorTransferir;
+                destino[4] += valorTransferir;
+                alert("Transferência realizada com sucesso!");
+            } else {
+                alert("Saldo insuficiente!");
             }
+        } else {
+            alert("Conta de origem ou destino não encontrada!");
         }
     }
 
-    function debitar(){
-        let numeroDaConta = parseInt(prompt("Digite o numero da conta: "))
+    function remover() {
+        let removerConta = parseInt(prompt("Digite o número da conta que deseja remover: "));
+        let index = contas.findIndex(conta => conta[3] === removerConta);
 
-        for(let i = 0; i < contas.length; i++){
-            for(let j = 0; j < contas[i].length; j++){
-                if(contas[i][j] === numeroDaConta){
-                    let valorDebito = parent(prompt("Digite valor que deseja debitar: "))
-                    if(contas[1][4] >= valorDebito){
-                        contas[1][4] -= valorDebito;
-                        alert("Valor debitado")
-                        alert("Novo Saldo R$ " + contas[1][4])
-                    }
-                    else {
-                        alert("Saldo insuficiente!")
-                    }
-                    return
-                }
+        if (index !== -1) {
+            contas.splice(index, 1);
+            alert("Conta removida com sucesso!");
+        } else {
+            alert("Essa conta não existe!");
+        }
+    }
+
+    function exibir() {
+        let numeroDaConta = parseInt(prompt("Digite o número da conta: "));
+        let conta = contas.find(conta => conta[3] === numeroDaConta);
+
+        if (conta) {
+            alert(`Nome: ${conta[0]}\nData de Nascimento: ${conta[1]}\nTelefone: ${conta[2]}\nNúmero da Conta: ${conta[3]}\nSaldo: R$ ${conta[4]}`);
+        } else {
+            alert("Conta não encontrada!");
+        }
+    }
+
+    function debitar() {
+        let numeroDaConta = parseInt(prompt("Digite o número da conta: "));
+        let conta = contas.find(conta => conta[3] === numeroDaConta);
+
+        if (conta) {
+            let valorDebito = parseFloat(prompt("Digite o valor que deseja debitar: "));
+            if (conta[4] >= valorDebito) {
+                conta[4] -= valorDebito;
+                alert("Valor debitado com sucesso!");
+                alert("Novo Saldo: R$ " + conta[4]);
+            } else {
+                alert("Saldo insuficiente!");
             }
+        } else {
+            alert("Conta não encontrada!");
         }
     }
 
 </script>
 
 <body>
-    <input type="button" onclick="criarConta()" value="criar Conta">
-    <input type="button" onclick="exibir()" value="exibir">
-    <input type="button" onclick="debitar()" value="debitar">
+    <input type="button" onclick="criarConta()" value="Criar Conta">
+    <input type="button" onclick="exibir()" value="Exibir">
+    <input type="button" onclick="debitar()" value="Debitar">
+    <input type="button" onclick="transferir()" value="Transferir">
+    <input type="button" onclick="remover()" value="Remover">
 </body>
 
 </html>
